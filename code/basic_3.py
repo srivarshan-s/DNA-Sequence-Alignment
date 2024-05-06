@@ -132,7 +132,7 @@ def main():
         # Matching in string 1 and 2
         else:
             str_opt_1 = str_1[i_idx - 1] + str_opt_1
-            str_opt_2 = str_2[i_idx - 1] + str_opt_2
+            str_opt_2 = str_2[j_idx - 1] + str_opt_2
             i_idx -= 1
             j_idx -= 1
 
