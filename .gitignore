@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 .vscode
 Summary.docx
+code/in.txt
+code/out.txt
