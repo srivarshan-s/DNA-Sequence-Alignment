@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Get the path of the python executable
 python_path=$(which python)
