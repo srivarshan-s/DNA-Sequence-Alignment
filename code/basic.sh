@@ -15,4 +15,4 @@ if [[ -z $python_path ]]; then
     exit 1
 fi
 
-$python_path basic_3.py $1 $2
+"$python_path" basic_3.py $1 $2
