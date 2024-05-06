@@ -6,11 +6,12 @@ import psutil
 # Hardcoded values
 DELTA = 30  # Gap penalty
 
+
 # Function to return memory used by process
 def process_memory():
-    process = psutil.Process() 
+    process = psutil.Process()
     memory_info = process.memory_info()
-    memory_consumed = int(memory_info.rss/1024) 
+    memory_consumed = int(memory_info.rss / 1024)
     return memory_consumed
 
 
@@ -112,7 +113,6 @@ def main():
             # Set OPT val to minimum of the above 3
             OPT[i][j] = min(delta_1, delta_2, alph)
 
-
     # Top-down pass
     str_opt_1 = ""
     str_opt_2 = ""
@@ -159,7 +159,7 @@ def main():
 
     # Write to output file
     with open(output_path, "w") as file:
-        file.write(str(OPT[n_rows - 1][n_cols-1]) + "\n")
+        file.write(str(OPT[n_rows - 1][n_cols - 1]) + "\n")
         file.write(str_opt_1 + "\n")
         file.write(str_opt_2 + "\n")
         file.write(str(exec_duration) + "\n")
