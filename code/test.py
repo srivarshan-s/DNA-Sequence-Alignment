@@ -1,5 +1,5 @@
-str1 = "_A_CA_CACT__G__A_C_TAC_TGACTG_GTGA__C_TACTGACTGGACTGACTACTGACTGGTGACTACT_GACTG_G"
-str2 = "TATTATTA_TACGCTATTATACGCGAC_GCG_GACGCGTA_T_AC__G_CT_ATTA_T_AC__GCGAC_GC_GGAC_GCG"
+import sys
+
 
 def alpha(x, y):
     char_map = {
@@ -16,12 +16,38 @@ def alpha(x, y):
     ]
     return alpha_matrix[char_map[x]][char_map[y]]
 
-opt_val = 0
 
-for i in range(len(str1)):
-    if str1[i] == "_" or str2[i] == "_":
-        opt_val += 30
+def main():
+    # Parse command line arguments
+    if len(sys.argv) != 2:
+        print("Error: Provide valid arguments!")
+        exit()
+    path: str = sys.argv[1]
+
+    # Define variables
+    opt_val1 = 0
+    opt_val2 = 0
+    str1 = ""
+    str2 = ""
+
+    # Read the optimal value and aligned strings
+    with open(path, "r") as file:
+        line = file.readline().strip()
+        opt_val1 = int(line)
+        str1 = file.readline().strip()
+        str2 = file.readline().strip()
+
+    for i in range(len(str1)):
+        if str1[i] == "_" or str2[i] == "_":
+            opt_val2 += 30
+        else:
+            opt_val2 += alpha(str1[i], str2[i])
+
+    if opt_val1 == opt_val2:
+        print(path, "passed test")
     else:
-        opt_val += alpha(str1[i], str2[i])
+        print("Error:", path, "failed test!")
 
-print(opt_val)
+
+if __name__ == "__main__":
+    main()
