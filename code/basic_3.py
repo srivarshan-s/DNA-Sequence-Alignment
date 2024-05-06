@@ -1,9 +1,17 @@
 import sys
 import time
+import psutil
 
 
 # Hardcoded values
 DELTA = 30  # Gap penalty
+
+# Function to return memory used by process
+def process_memory():
+    process = psutil.Process() 
+    memory_info = process.memory_info()
+    memory_consumed = int(memory_info.rss/1024) 
+    return memory_consumed
 
 
 # Function to return matching penalty
@@ -146,12 +154,16 @@ def main():
     # Calculate code execution duration in ms
     exec_duration = (end_time - start_time) * 1000
 
+    # Get memory used by process
+    memory = process_memory()
+
     # Write to output file
     with open(output_path, "w") as file:
         file.write(str(OPT[n_rows - 1][n_cols-1]) + "\n")
         file.write(str_opt_1 + "\n")
         file.write(str_opt_2 + "\n")
         file.write(str(exec_duration) + "\n")
+        file.write(str(memory))
 
 
 if __name__ == "__main__":
