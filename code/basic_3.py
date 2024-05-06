@@ -1,4 +1,5 @@
 import sys
+import time
 
 
 # Hardcoded values
@@ -69,6 +70,9 @@ def buildStrings(path):
 
 
 def main():
+    # Record the start time
+    start_time = time.time()
+
     # Parse command line arguments
     if len(sys.argv) != 3:
         print("Error: Provide valid arguments!")
@@ -136,11 +140,18 @@ def main():
         str_opt_2 = str_2[j_idx - 1] + str_opt_2
         j_idx -= 1
 
+    # Record the end time
+    end_time = time.time()
+
+    # Calculate code execution duration in ms
+    exec_duration = (end_time - start_time) * 1000
+
     # Write to output file
     with open(output_path, "w") as file:
         file.write(str(OPT[n_rows - 1][n_cols-1]) + "\n")
         file.write(str_opt_1 + "\n")
         file.write(str_opt_2 + "\n")
+        file.write(str(exec_duration) + "\n")
 
 
 if __name__ == "__main__":
