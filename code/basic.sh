@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Get the path of the python executable
-python_path=$(which python)
+# Get the path of the python3 executable
+python_path=$(which python3)
 
-# Check if python is installed
+# Check if python3 is installed
 if [[ -z "$python_path" ]]; then
-    # If python is not installed point to python3 executable
-    python_path=$(which python3)
+    # If python is not installed point to python executable
+    python_path=$(which python)
 fi
 
 # If both are not installed throw error
