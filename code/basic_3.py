@@ -78,27 +78,16 @@ def buildStrings(path):
     return (str_1, str_2)
 
 
-def main():
-    # Record the start time
-    start_time = time.time()
-
-    # Parse command line arguments
-    if len(sys.argv) != 3:
-        print("Error: Provide valid arguments!")
-        exit()
-    path: str = sys.argv[1]
-    output_path: str = sys.argv[2]
-
-    # Build the strings
-    str_1, str_2 = buildStrings(path)
-
+def bottom_up(str_1, str_2):
     # Initialize the OPT matrix
     n_rows = len(str_1) + 1
     n_cols = len(str_2) + 1
     OPT = [[0 for _ in range(n_cols)] for _ in range(n_rows)]
+
     # Initialize first row
     for i in range(n_rows):
         OPT[i][0] = i * DELTA
+
     # Initialize first column
     for j in range(n_cols):
         OPT[0][j] = j * DELTA
@@ -113,11 +102,31 @@ def main():
             # Set OPT val to minimum of the above 3
             OPT[i][j] = min(delta_1, delta_2, alph)
 
+    return OPT
+
+
+def main():
+    # Record the start time
+    start_time = time.time()
+
+    # Parse command line arguments
+    if len(sys.argv) != 3:
+        print("Error: Provide valid arguments!")
+        exit()
+    path: str = sys.argv[1]
+    output_path: str = sys.argv[2]
+
+    # Build the strings
+    str_1, str_2 = buildStrings(path)
+
+    # Bottom-up pass
+    OPT = bottom_up(str_1, str_2)
+
     # Top-down pass
     str_opt_1 = ""
     str_opt_2 = ""
-    i_idx = n_rows - 1
-    j_idx = n_cols - 1
+    i_idx = len(str_1)
+    j_idx = len(str_2)
     while i_idx > 0 and j_idx > 0:
         # Char in string 1 and gap in string 2
         if OPT[i_idx][j_idx] == OPT[i_idx - 1][j_idx] + DELTA:
@@ -159,7 +168,7 @@ def main():
 
     # Write to output file
     with open(output_path, "w") as file:
-        file.write(str(OPT[n_rows - 1][n_cols - 1]) + "\n")
+        file.write(str(OPT[len(str_1)][len(str_2)]) + "\n")
         file.write(str_opt_1 + "\n")
         file.write(str_opt_2 + "\n")
         file.write(str(exec_duration) + "\n")
