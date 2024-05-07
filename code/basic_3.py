@@ -78,6 +78,7 @@ def buildStrings(path):
     return (str_1, str_2)
 
 
+# Function to perform bottom-up pass
 def bottom_up(str_1, str_2):
     # Initialize the OPT matrix
     n_rows = len(str_1) + 1
@@ -105,28 +106,14 @@ def bottom_up(str_1, str_2):
     return OPT
 
 
-def main():
-    # Record the start time
-    start_time = time.time()
-
-    # Parse command line arguments
-    if len(sys.argv) != 3:
-        print("Error: Provide valid arguments!")
-        exit()
-    path: str = sys.argv[1]
-    output_path: str = sys.argv[2]
-
-    # Build the strings
-    str_1, str_2 = buildStrings(path)
-
-    # Bottom-up pass
-    OPT = bottom_up(str_1, str_2)
-
+# Function to perform top-down pass
+def top_down(str_1, str_2, OPT):
     # Top-down pass
     str_opt_1 = ""
     str_opt_2 = ""
     i_idx = len(str_1)
     j_idx = len(str_2)
+
     while i_idx > 0 and j_idx > 0:
         # Char in string 1 and gap in string 2
         if OPT[i_idx][j_idx] == OPT[i_idx - 1][j_idx] + DELTA:
@@ -156,6 +143,29 @@ def main():
         str_opt_1 = "_" + str_opt_1
         str_opt_2 = str_2[j_idx - 1] + str_opt_2
         j_idx -= 1
+
+    return str_opt_1, str_opt_2
+
+
+def main():
+    # Record the start time
+    start_time = time.time()
+
+    # Parse command line arguments
+    if len(sys.argv) != 3:
+        print("Error: Provide valid arguments!")
+        exit()
+    path: str = sys.argv[1]
+    output_path: str = sys.argv[2]
+
+    # Build the strings
+    str_1, str_2 = buildStrings(path)
+
+    # Bottom-up pass
+    OPT = bottom_up(str_1, str_2)
+
+    # Top-down pass
+    str_opt_1, str_opt_2 = top_down(str_1, str_2, OPT)
 
     # Record the end time
     end_time = time.time()
