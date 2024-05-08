@@ -174,27 +174,9 @@ def divide(str_1, str_2, depth):
         str_2_opt = str_2_left_opt + str_2_right_opt
         opt_val = opt_val_left + opt_val_right
 
-        # TEMP CODE
-        str_2_left = str_2[:min_idx]
-        str_2_right = str_2[min_idx:]
-        opt_left = bottom_up(str_1_left, str_2_left)
-        temp_str_1_left_opt, temp_str_2_left_opt = top_down(str_1_left, str_2_left, opt_left)
-        opt_right = bottom_up(str_1_right, str_2_right)
-        temp_str_1_right_opt, temp_str_2_right_opt = top_down(str_1_right, str_2_right, opt_right)
-        temp_str_1_opt = temp_str_1_left_opt + temp_str_1_right_opt
-        temp_str_2_opt = temp_str_2_left_opt + temp_str_2_right_opt
-        # print(temp_str_1_opt, "\t\t", temp_str_2_opt)
-        # print(str_1_opt, "\t\t", str_2_opt)
-        # if temp_str_1_opt != str_1_opt:
-        #     print("String 1 not same!")
-        # if temp_str_2_opt != str_2_opt:
-        #     print("String 2 not same!")
-        # DEL AFTER USE
-
         return str_1_opt, str_2_opt, opt_val
     
     else:
-        print(str_1, str_2)
         OPT = bottom_up(str_1, str_2)
         str_1_opt, str_2_opt = top_down(str_1, str_2, OPT)
 
