@@ -198,9 +198,6 @@ def main():
     # Build the strings
     str_1, str_2 = buildStrings(path)
 
-    str_1 = "TTGGC"
-    str_2 = "ACTGA"
-
     # Call divide and conquer function
     str_1_opt, str_2_opt, opt_val = divide(str_1, str_2, 3)
 
