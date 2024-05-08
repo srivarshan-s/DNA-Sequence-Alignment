@@ -149,7 +149,7 @@ def top_down(str_1, str_2, OPT):
 
 # Divide and conquer function
 def divide(str_1, str_2, depth):
-    if (len(str_1) != 1) and len(str_1) != 0:
+    if not (len(str_1) <= 2 or len(str_2) <= 2):
         idx = len(str_1) // 2
         str_1_left = str_1[:idx]
         str_1_right = str_1[idx:]
