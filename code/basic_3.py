@@ -85,11 +85,11 @@ def bottom_up(str_1, str_2):
     n_cols = len(str_2) + 1
     OPT = [[0 for _ in range(n_cols)] for _ in range(n_rows)]
 
-    # Initialize first row
+    # Initialize first column
     for i in range(n_rows):
         OPT[i][0] = i * DELTA
 
-    # Initialize first column
+    # Initialize first row
     for j in range(n_cols):
         OPT[0][j] = j * DELTA
 
