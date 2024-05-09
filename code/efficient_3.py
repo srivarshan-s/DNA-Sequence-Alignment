@@ -108,6 +108,7 @@ def eff_bottom_up(str_1, str_2):
 
     # Bottom-up pass
     for j in range(1, n_cols):
+        # Initialize j+1 column
         temp_OPT = [0 for _ in range(n_rows)]
         temp_OPT[0] = j * DELTA
         for i in range(1, n_rows):
@@ -116,6 +117,7 @@ def eff_bottom_up(str_1, str_2):
             # Match/Mismatch
             alpha = OPT[i - 1] + penaltyMapper(str_1[i - 1], str_2[j - 1])
             temp_OPT[i] = min(delta_1, delta_2, alpha)
+        # Assign temp column to OPT for next pass
         OPT = temp_OPT
 
     return OPT
@@ -164,26 +166,33 @@ def top_down(str_1, str_2, OPT):
 
 # Divide and conquer function
 def divide(str_1, str_2, depth):
+    # General cases for DnC
     if not (len(str_1) <= 2 or len(str_2) <= 2):
+        # Divide str_2 by half
         idx = len(str_2) // 2
         str_2_left = str_2[:idx]
         str_2_right = str_2[idx:]
 
+        # Find OPT arrays for left and right strings
         OPT_left = eff_bottom_up(str_1, str_2_left)
         OPT_right = eff_bottom_up(str_1[::-1], str_2_right[::-1])[::-1]
 
+        # Initialize min optimal value and index
         min_opt_val = float("inf")
         min_idx = None
 
+        # Find the optimal split
         for idx in range(len(OPT_right)):
             opt_val = OPT_left[idx] + OPT_right[idx]
             if opt_val < min_opt_val:
                 min_opt_val = opt_val
                 min_idx = idx
 
+        # Dive str_1 into 2 according to min idx
         str_1_left = str_1[:min_idx]
         str_1_right = str_1[min_idx:]
 
+        # Recursive call to the divide function for left and right strings
         str_1_left_opt, str_2_left_opt, opt_val_left = divide(
             str_1_left, str_2_left, depth
         )
@@ -191,12 +200,14 @@ def divide(str_1, str_2, depth):
             str_1_right, str_2_right, depth
         )
 
+        # Combine step for aligned strings and optimal values
         str_1_opt = str_1_left_opt + str_1_right_opt
         str_2_opt = str_2_left_opt + str_2_right_opt
         opt_val = opt_val_left + opt_val_right
 
         return str_1_opt, str_2_opt, opt_val
 
+    # Base case for DnC
     else:
         OPT = bottom_up(str_1, str_2)
         str_1_opt, str_2_opt = top_down(str_1, str_2, OPT)
