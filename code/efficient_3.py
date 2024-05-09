@@ -90,10 +90,6 @@ def bottom_up(str_1, str_2):
         OPT[i][0] = i * DELTA
 
     # Initialize first row
-    for i in range(n_rows):
-        OPT[i][0] = i * DELTA
-
-    # Initialize first column
     for j in range(n_cols):
         OPT[0][j] = j * DELTA
 
@@ -180,38 +176,43 @@ def top_down(str_1, str_2, OPT):
 # Divide and conquer function
 def divide(str_1, str_2, depth):
     if not (len(str_1) <= 2 or len(str_2) <= 2):
-        idx = len(str_1) // 2
-        str_1_left = str_1[:idx]
-        str_1_right = str_1[idx:]
+        idx = len(str_2) // 2
+        str_2_left = str_2[:idx]
+        str_2_right = str_2[idx:]
+
+        OPT_left = eff_bottom_up(str_1, str_2_left)
+        OPT_right = eff_bottom_up(str_1[::-1], str_2_right[::-1])[::-1]
 
         min_opt_val = float("inf")
         min_idx = None
 
-        for idx in range(0, len(str_2)):
-            str_2_left = str_2[:idx]
-            str_2_right = str_2[idx:]
-            opt_val_left = bottom_up(str_1_left, str_2_left)[len(str_1_left)][len(str_2_left)]
-            opt_val_right = bottom_up(str_1_right, str_2_right)[len(str_1_right)][len(str_2_right)]
-            opt_val = opt_val_left + opt_val_right
+        for idx in range(len(OPT_right)):
+            opt_val = OPT_left[idx] + OPT_right[idx]
             if opt_val < min_opt_val:
                 min_opt_val = opt_val
                 min_idx = idx
 
-        str_1_left_opt, str_2_left_opt, opt_val_left = divide(str_1_left, str_2[:min_idx], depth)
-        str_1_right_opt, str_2_right_opt, opt_val_right = divide(str_1_right, str_2[min_idx:], depth)
+        str_1_left = str_1[:min_idx]
+        str_1_right = str_1[min_idx:]
+        
+        str_1_left_opt, str_2_left_opt, opt_val_left = divide(
+            str_1_left, str_2_left, depth
+        )
+        str_1_right_opt, str_2_right_opt, opt_val_right = divide(
+            str_1_right, str_2_right, depth
+        )
 
         str_1_opt = str_1_left_opt + str_1_right_opt
         str_2_opt = str_2_left_opt + str_2_right_opt
         opt_val = opt_val_left + opt_val_right
 
         return str_1_opt, str_2_opt, opt_val
-    
+
     else:
         OPT = bottom_up(str_1, str_2)
         str_1_opt, str_2_opt = top_down(str_1, str_2, OPT)
 
         return str_1_opt, str_2_opt, OPT[len(str_1)][len(str_2)]
-
 
 
 def main():
