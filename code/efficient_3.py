@@ -110,6 +110,32 @@ def bottom_up(str_1, str_2):
     return OPT
 
 
+# Function to perform space-efficient bottom-up pass
+def eff_bottom_up(str_1, str_2):
+    # Initialize the OPT matrix
+    n_rows = len(str_1) + 1
+    n_cols = len(str_2) + 1
+    OPT = [0 for _ in range(n_rows)]
+
+    # Initialize first column
+    for i in range(n_rows):
+        OPT[i] = i * DELTA
+
+    # Bottom-up pass
+    for j in range(1, n_cols):
+        temp_OPT = [0 for _ in range(n_rows)]
+        temp_OPT[0] = j * DELTA
+        for i in range(1, n_rows):
+            delta_1 = temp_OPT[i - 1] + DELTA  # Gap in str_1
+            delta_2 = OPT[i] + DELTA  # Gap in str_2
+            # Match/Mismatch
+            alph = OPT[i - 1] + alpha(str_1[i - 1], str_2[j - 1])
+            temp_OPT[i] = min(delta_1, delta_2, alph)
+        OPT = temp_OPT
+
+    return OPT
+
+
 # Function to perform top-down pass
 def top_down(str_1, str_2, OPT):
     # Top-down pass
