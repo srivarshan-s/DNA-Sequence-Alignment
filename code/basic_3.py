@@ -16,7 +16,7 @@ def process_memory():
 
 
 # Function to return matching penalty
-def alpha(x, y):
+def penaltyMapper(x, y):
     char_map = {
         "A": 0,
         "C": 1,
@@ -88,9 +88,9 @@ def bottom_up(str_1, str_2):
             delta_1 = OPT[i - 1][j] + DELTA  # Gap in str_1
             delta_2 = OPT[i][j - 1] + DELTA  # Gap in str_2
             # Match/Mismatch
-            alph = OPT[i - 1][j - 1] + alpha(str_1[i - 1], str_2[j - 1])
+            alpha = OPT[i - 1][j - 1] + penaltyMapper(str_1[i - 1], str_2[j - 1])
             # Set OPT val to minimum of the above 3
-            OPT[i][j] = min(delta_1, delta_2, alph)
+            OPT[i][j] = min(delta_1, delta_2, alpha)
 
     return OPT
 
