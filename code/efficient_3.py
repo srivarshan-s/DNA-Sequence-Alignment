@@ -32,17 +32,6 @@ def alpha(x, y):
     return alpha_matrix[char_map[x]][char_map[y]]
 
 
-# Function to print a 2D matrix
-def printMatrix(arr):
-    # Find the maximum width of the items in the array for better formatting
-    max_width = max(len(str(item)) for row in arr for item in row)
-
-    # Iterate through the 2D array
-    for row in arr:
-        # Print each row
-        print(" ".join(str(item).rjust(max_width) for item in row))
-
-
 # Function to build the two strings
 def buildStrings(path):
     # Initialize the strings
@@ -194,7 +183,7 @@ def divide(str_1, str_2, depth):
 
         str_1_left = str_1[:min_idx]
         str_1_right = str_1[min_idx:]
-        
+
         str_1_left_opt, str_2_left_opt, opt_val_left = divide(
             str_1_left, str_2_left, depth
         )
